@@ -27,6 +27,7 @@ public class CoursePair {
 		this.timeslot = newTime;
 	}
 	
+	//just for human-readability. Equivalent to cp.schedule(EMPTY);
 	public void unschedule() {
 		this.timeslot = EMPTY;
 	}
