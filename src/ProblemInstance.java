@@ -8,6 +8,7 @@ public class ProblemInstance {
 
 	private ArrayList<CoursePair> schedule;
 	private ArrayList<ProblemInstance> children;
+	private Parser p;
 	private int evalScore;
 	
 	public ProblemInstance() {

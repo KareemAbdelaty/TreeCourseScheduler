@@ -1,10 +1,9 @@
-import java.util.*; 
 public class Slot{
 	private String day;
 	private String time;
-	public String id;
-	boolean courseSlot;
-	boolean evening;
+	private String id;
+	private boolean courseSlot;
+	private boolean evening;
 	private int max;
 	private int min;
 	
@@ -34,5 +33,47 @@ public class Slot{
 		this.id += ti;
 		
 		
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public boolean isCourseSlot() {
+		return courseSlot;
+	}
+	public void setCourseSlot(boolean courseSlot) {
+		this.courseSlot = courseSlot;
+	}
+	public boolean isEvening() {
+		return evening;
+	}
+	public void setEvening(boolean evening) {
+		this.evening = evening;
+	}
+	public int getMax() {
+		return max;
+	}
+	public void setMax(int max) {
+		this.max = max;
+	}
+	public int getMin() {
+		return min;
+	}
+	public void setMin(int min) {
+		this.min = min;
 	}
 }

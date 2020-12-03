@@ -7,16 +7,17 @@ class Parser{
 		All the member fields are initally null read and are intialised after a succesful  parsing of the input
 		the parse assumes the keywords occur in a static sequence
 	**/
-	public String instanceName;
-	public ArrayList<Slot> coursesSlots; //
-	public ArrayList<Slot> labSlots;
-	public ArrayList<String> courseIdentifiers;
-	public ArrayList<String> LabIdentifiers;	
-	public ArrayList<CoursePair> notCompatible;
-	public ArrayList<CoursePair> unWanted; 
-	public HashMap<CoursePair,String> preferences;
-	public ArrayList<CoursePair> pairs;
-	public ArrayList<CoursePair> partials;
+	private String instanceName;
+	private ArrayList<Slot> coursesSlots; //
+	private ArrayList<Slot> labSlots;
+	private ArrayList<String> courseIdentifiers;
+	private ArrayList<String> LabIdentifiers;	
+	private ArrayList<CoursePair> notCompatible;
+	private ArrayList<CoursePair> unWanted; 
+	private HashMap<CoursePair,String> preferences;
+	private ArrayList<CoursePair> pairs;
+	private ArrayList<CoursePair> partials;
+	private HashMap<String,Slot> slots;
 	
 	public Parser(){
 		this.coursesSlots = new ArrayList<Slot>(); //
@@ -28,6 +29,7 @@ class Parser{
 		this.preferences = new HashMap<CoursePair,String>();
 		this.pairs = new ArrayList<CoursePair>();
 		this.partials = new ArrayList<CoursePair>();
+		this.slots = new HashMap<String,Slot>();
 	}
 	
 	
@@ -87,10 +89,12 @@ class Parser{
 			String[] temp =  line.split(",");
 			Slot c = new Slot(temp[0].trim(),temp[1].trim(),Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[3].trim()),true);
 			this.coursesSlots.add(c);
+			this.slots.put(c.getId(),c);
 		}else if(mode ==3){
 			String[] temp =  line.split(",");
 			Slot l = new Slot(temp[0].trim(),temp[1].trim(),Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[3].trim()),false);
 			this.labSlots.add(l);
+			this.slots.put(l.getId(),l);
 		}else if(mode ==4){
 			this.courseIdentifiers.add(line);
 		}else if(mode ==5){
@@ -102,12 +106,12 @@ class Parser{
 		}else if(mode ==7){
 			String[] temp =  line.split(",");
 			Slot s = new Slot(temp[1],temp[2]);
-			CoursePair u = new CoursePair(temp[0],s.id);
+			CoursePair u = new CoursePair(temp[0],s.getId());
 			this.unWanted.add(u);
 		}else if(mode ==8){
 			String[] temp =  line.split(",");
 			Slot s = new Slot(temp[1],temp[2]);
-			CoursePair u = new CoursePair(temp[0],s.id);
+			CoursePair u = new CoursePair(temp[0],s.getId());
 			this.preferences.put(u,temp[3]);
 		}else if(mode ==9){
 			String[] temp =  line.split(",");
@@ -116,27 +120,124 @@ class Parser{
 		}else if(mode == 10){
 			String[] temp =  line.split(",");
 			Slot s = new Slot(temp[1],temp[2]);
-			CoursePair u = new CoursePair(temp[0],s.id);
-			this.unWanted.add(u);
+			CoursePair u = new CoursePair(temp[0],s.getId());
+			this.partials.add(u);
 		}
 		
 	}
-	System.out.println(coursesSlots);
-	System.out.println(labSlots);
-	System.out.println(courseIdentifiers);
-	System.out.println(LabIdentifiers);
-	System.out.println(notCompatible);
-	System.out.println(unWanted);
-	System.out.println(preferences);
-	System.out.println(pairs);
-	System.out.println(partials);
+
 	return 0;
 
 	}
-	public static void main(String args[]){
-		Parser p =  new Parser();
-		p.parse(args[0]);
-		
+
+
+	public String getInstanceName() {
+		return instanceName;
+	}
+
+
+	public void setInstanceName(String instanceName) {
+		this.instanceName = instanceName;
+	}
+
+
+	public ArrayList<Slot> getCoursesSlots() {
+		return coursesSlots;
+	}
+
+
+	public void setCoursesSlots(ArrayList<Slot> coursesSlots) {
+		this.coursesSlots = coursesSlots;
+	}
+
+
+	public ArrayList<Slot> getLabSlots() {
+		return labSlots;
+	}
+
+
+	public void setLabSlots(ArrayList<Slot> labSlots) {
+		this.labSlots = labSlots;
+	}
+
+
+	public ArrayList<String> getCourseIdentifiers() {
+		return courseIdentifiers;
+	}
+
+
+	public void setCourseIdentifiers(ArrayList<String> courseIdentifiers) {
+		this.courseIdentifiers = courseIdentifiers;
+	}
+
+
+	public ArrayList<String> getLabIdentifiers() {
+		return LabIdentifiers;
+	}
+
+
+	public void setLabIdentifiers(ArrayList<String> labIdentifiers) {
+		LabIdentifiers = labIdentifiers;
+	}
+
+
+	public ArrayList<CoursePair> getNotCompatible() {
+		return notCompatible;
+	}
+
+
+	public void setNotCompatible(ArrayList<CoursePair> notCompatible) {
+		this.notCompatible = notCompatible;
+	}
+
+
+	public ArrayList<CoursePair> getUnWanted() {
+		return unWanted;
+	}
+
+
+	public void setUnWanted(ArrayList<CoursePair> unWanted) {
+		this.unWanted = unWanted;
+	}
+
+
+	public HashMap<CoursePair, String> getPreferences() {
+		return preferences;
+	}
+
+
+	public void setPreferences(HashMap<CoursePair, String> preferences) {
+		this.preferences = preferences;
+	}
+
+
+	public ArrayList<CoursePair> getPairs() {
+		return pairs;
+	}
+
+
+	public void setPairs(ArrayList<CoursePair> pairs) {
+		this.pairs = pairs;
+	}
+
+
+	public ArrayList<CoursePair> getPartials() {
+		return partials;
+	}
+
+
+	public void setPartials(ArrayList<CoursePair> partials) {
+		this.partials = partials;
+	}
+
+
+	public HashMap<String, Slot> getSlots() {
+		return slots;
+	}
+
+
+	public void setSlots(HashMap<String, Slot> slots) {
+		this.slots = slots;
 	}
 	
 }
