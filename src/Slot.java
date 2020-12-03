@@ -24,7 +24,7 @@ public class Slot{
 		this.min = mi;
 		this.courseSlot = cs;
 		String ti = this.time.split(":")[0];
-		if(Integer.parseInt(ti) >= 18){
+		if(Integer.parseInt(ti.trim()) >= 18){
 			this.evening = true;
 		}else{
 			this.evening = false;

@@ -31,7 +31,7 @@ class Parser{
 	}
 	
 	
-	public int parse(String filePath) throws Exception{
+	public int parse(String filePath){
     List<String> lines = Collections.emptyList(); 
     try
     { 
@@ -47,6 +47,9 @@ class Parser{
 	Iterator<String> itr = lines.iterator(); 
     while (itr.hasNext()) {
 		String line = itr.next(); 
+		if(line.trim().equals("")){
+			continue;
+		}
 		if(line.contains("Name:")){
 			mode = 1;
 			continue;
@@ -82,11 +85,11 @@ class Parser{
 			this.instanceName = line;
 		}else if(mode ==2){
 			String[] temp =  line.split(",");
-			Slot c = new Slot(temp[0],temp[1],Integer.parseInt(temp[2]),Integer.parseInt(temp[3]),true);
+			Slot c = new Slot(temp[0].trim(),temp[1].trim(),Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[3].trim()),true);
 			this.coursesSlots.add(c);
 		}else if(mode ==3){
 			String[] temp =  line.split(",");
-			Slot l = new Slot(temp[0],temp[1],Integer.parseInt(temp[2]),Integer.parseInt(temp[3]),false);
+			Slot l = new Slot(temp[0].trim(),temp[1].trim(),Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[3].trim()),false);
 			this.labSlots.add(l);
 		}else if(mode ==4){
 			this.courseIdentifiers.add(line);
@@ -118,8 +121,22 @@ class Parser{
 		}
 		
 	}
+	System.out.println(coursesSlots);
+	System.out.println(labSlots);
+	System.out.println(courseIdentifiers);
+	System.out.println(LabIdentifiers);
+	System.out.println(notCompatible);
+	System.out.println(unWanted);
+	System.out.println(preferences);
+	System.out.println(pairs);
+	System.out.println(partials);
 	return 0;
 
+	}
+	public static void main(String args[]){
+		Parser p =  new Parser();
+		p.parse(args[0]);
+		
 	}
 	
 }
