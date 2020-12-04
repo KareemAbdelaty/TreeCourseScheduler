@@ -33,7 +33,7 @@ public class Driver {
 				break;
 			}
 		}
-		ProblemInstance result = pr.findSchedule(pr, index);
+		ProblemInstance result = pr.findSchedule(index);
 		if(result == null) {
 			System.out.println("No possible solution with given parameter");
 		}else {

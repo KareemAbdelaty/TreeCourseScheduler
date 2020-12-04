@@ -52,7 +52,7 @@ public class ProblemInstance {
 	
 
 	
-	public  ProblemInstance findSchedule(ProblemInstance p, int index) {
+	public  ProblemInstance findSchedule(int index) {
 		ProblemInstance found = null;
 		CoursePair c = this.schedule.get(index);
 		if(this.isCourse(c.getCourse())) {
@@ -69,7 +69,7 @@ public class ProblemInstance {
 				if(index<this.schedule.size()-1) {
 					ProblemInstance pr = new ProblemInstance(this.p);
 					pr.setSchedule(this.schedule);
-					ProblemInstance result = pr.findSchedule(pr, index+1);
+					ProblemInstance result = pr.findSchedule(index+1);
 					if(result!=null) {
 						found = result;
 					} 
@@ -93,7 +93,7 @@ public class ProblemInstance {
 				if(index<this.schedule.size()-1) {
 					ProblemInstance pr = new ProblemInstance(this.p);
 					pr.setSchedule(this.schedule);
-					ProblemInstance result = pr.findSchedule(pr, index+1);
+					ProblemInstance result = pr.findSchedule(index+1);
 					if(result!=null) {
 						found = result;
 					} 
