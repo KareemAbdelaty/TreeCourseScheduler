@@ -72,12 +72,13 @@ public class ProblemInstance {
 				temp.Eval();
 				div.add(temp);
 			}
+			ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
 			if (index < this.schedule.size()) {
 				for(ProblemInstance pr : div) {
-					pr = pr.findSchedule(index+1);
+					div2.add(pr.findSchedule(index+1));
 				}
 			}
-			for(ProblemInstance pr : div) {
+			for(ProblemInstance pr : div2) {
 				if(found == null || found.evalScore > pr.evalScore) {
 					found = pr;
 				}
@@ -100,12 +101,13 @@ public class ProblemInstance {
 				temp.Eval();
 				div.add(temp);
 			}
+			ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
 			if (index < this.schedule.size()) {
 				for(ProblemInstance pr : div) {
-					pr = pr.findSchedule(index+1);
+					div2.add(pr.findSchedule(index+1));
 				}
 			}
-			for(ProblemInstance pr : div) {
+			for(ProblemInstance pr : div2) {
 				if(found == null || found.evalScore > pr.evalScore) {
 					found = pr;
 				}
