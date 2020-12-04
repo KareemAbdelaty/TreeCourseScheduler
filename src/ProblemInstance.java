@@ -153,14 +153,14 @@ public class ProblemInstance {
 		boolean containsEmpty = false;
 		//bad if a slot has too many courses
 		for(Slot s : this.p.getCoursesSlots()) {
-			if(s.getMax() <= 0) {
+			if(s.getMax() < 0) {
 				System.out.println("Course slot overscheduled");
 				return BAD_CONSTR;
 			}
 		}
 		// same as above, for labs
 		for(Slot s : this.p.getLabSlots()) {
-			if(s.getMax() <= 0) {
+			if(s.getMax() < 0) {
 				System.out.println("Lab slot overscheduled");
 				return BAD_CONSTR;
 			}
