@@ -61,9 +61,13 @@ public class ProblemInstance {
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
 				if(this.Constr()==BAD_CONSTR) {
+					s.setMax(s.getMax()+1);
+					s.setMin(s.getMin()+1);
 					continue;
 				}
 				if(!this.Eval()) {
+					s.setMax(s.getMax()+1);
+					s.setMin(s.getMin()+1);
 					continue;
 				}
 				if(index<this.schedule.size()-1) {
@@ -85,9 +89,13 @@ public class ProblemInstance {
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
 				if(this.Constr()==BAD_CONSTR) {
+					s.setMax(s.getMax()+1);
+					s.setMin(s.getMin()+1);
 					continue;
 				}
 				if(!this.Eval()) {
+					s.setMax(s.getMax()+1);
+					s.setMin(s.getMin()+1);
 					continue;
 				}
 				if(index<this.schedule.size()-1) {
