@@ -136,16 +136,20 @@ public class ProblemInstance {
 	public int Constr() {
 		//evaluate constraints, return appropriate typecode. Problems: need to be able to compute efficiently for large problem sets. How to compare timeslots easily for Course/Tutorial conflicts?
 		boolean containsEmpty = false;
+		//bad if a slot has too many courses
 		for(Slot s : this.p.getCoursesSlots()) {
-			if(s.getMax() == 0) {
+			if(s.getMax() <= 0) {
 				return BAD_CONSTR;
 			}
 		}
+		// same as above, for labs
 		for(Slot s : this.p.getLabSlots()) {
-			if(s.getMax() == 0) {
+			if(s.getMax() <= 0) {
 				return BAD_CONSTR;
 			}
 		}
+		//check each course against each other course for incompatibilities
+		//optimize: only compare against nodes that it hasn't been compared against (ie ones at higher indices)
 		for(CoursePair c : p.getNotCompatible()) {
 			String time1 = "not";
 			String time2 = "equal";
@@ -160,10 +164,57 @@ public class ProblemInstance {
 				return BAD_CONSTR;
 			}
 		}
+		//Check no courses are in unwanted assignments
 		for(CoursePair c : p.getUnWanted()) {
 			for(CoursePair cp : this.schedule) {
 				if(cp.getCourse().equals(c.getCourse())&&(cp.getTime().equals(c.getTime()))) {
 					return BAD_CONSTR;
+				}
+			}
+		}
+		//Check evening courses are in the evening
+		for(CoursePair c : this.schedule) {
+			if(c.getCourse().contains("LEC 9") && Integer.getInteger(c.getTime().substring(2, 3)) <= 18) {
+				return BAD_CONSTR;
+			}
+		}
+		//Check 500-level courses are in different slots
+		ArrayList<String> times = new ArrayList<String>();
+		for(CoursePair c : this.schedule) {
+			if (c.getCourse().matches(".*5\\d\\d.*")) {
+				if (times.contains(c.getTime())) {
+					return BAD_CONSTR;
+				}
+				times.add(c.getTime());
+			}
+		}
+		//check nothing scheduled 11:00-12:30 TTh
+		for(CoursePair c : this.schedule) {
+			if(c.getCourse().contains("TU") && Integer.getInteger(c.getTime().substring(2, 3)) >= 11 && Integer.getInteger(c.getTime().substring(2, 3)) < 13) {
+				return BAD_CONSTR;
+			}
+		}
+		//Check 813 and 913 are in the right time.
+		times.clear();
+		for(CoursePair c : this.schedule) {
+			if(c.getCourse().contains("CPSC 813")) {
+				if(!c.getTime().equals("TU18")){
+					return BAD_CONSTR;
+				}
+				for(CoursePair cp : this.schedule) {
+					if(cp.getCourse().contains("CPSC 313") && cp.getTime().equals(c.getTime())) {
+						return BAD_CONSTR;
+					}
+				}
+			}
+			if(c.getCourse().contains("CPSC 913")) {
+				if(!c.getTime().equals("TU18")){
+					return BAD_CONSTR;
+				}
+				for(CoursePair cp : this.schedule) {
+					if(cp.getCourse().contains("CPSC 413") && cp.getTime().equals(c.getTime())) {
+						return BAD_CONSTR;
+					}
 				}
 			}
 		}
