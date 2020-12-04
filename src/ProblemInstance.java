@@ -10,6 +10,7 @@ public class ProblemInstance {
 	private int evalScore = Integer.MAX_VALUE; 
 	public static int wmin;
 	public static int pref;
+	private int slotIndex;
 	public static int pair;
 	public static int secdeff;
 	public static int pen_coursemin;
@@ -54,74 +55,88 @@ public class ProblemInstance {
 	public  ProblemInstance findSchedule(int index) {
 		ProblemInstance found = null;
 		CoursePair c = this.schedule.get(index);
-		System.out.println(c.getCourse());
+		ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
 		if(this.isCourse(c.getCourse())) {
-			ArrayList<ProblemInstance> div = new ArrayList<ProblemInstance>();
 			for(int i = 0; i < this.p.getCoursesSlots().size(); i++) {
 				ProblemInstance temp = new ProblemInstance(p);
 				temp.schedule = copySchedule(this.schedule);
 				c = temp.schedule.get(index);
 				Slot s = temp.p.getCoursesSlots().get(i);
+				temp.slotIndex =i;
 				c.schedule(s.getId());
-				s.setMax(s.getMax());
-				s.setMin(s.getMin());
+				s.setMax(s.getMax()-1);
+				s.setMin(s.getMin()-1);
 				if(temp.Constr()==BAD_CONSTR) {
 					s.setMax(s.getMax()+1);
 					s.setMin(s.getMin()+1);
 					continue;
 				}
 				temp.Eval();
-				div.add(temp);
-			}
-			ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
-			if (index < this.schedule.size()-1) {
-				for(ProblemInstance pr : div) {
-					ProblemInstance temp = pr.findSchedule(index+1);
-					if (temp != null) {
+				if (index < this.schedule.size()-1) {
+					ProblemInstance temp2 = temp.findSchedule(index+1);
+					if (temp2 != null) {
 						div2.add(temp);
+					}else {
+						Slot s2  = p.getCoursesSlots().get(temp.slotIndex);
+						s2.setMax(s2.getMax()+1);
+						s2.setMin(s2.getMin()+1);
+						}
+					
+				} else {
+					div2.add(temp);
+				}
+				
+				for(ProblemInstance pr : div2) {
+					if(found == null || found.evalScore > pr.evalScore) {
+						found = pr;
+					}else {
+						Slot s3  = p.getCoursesSlots().get(pr.slotIndex);
+						s3.setMax(s3.getMax()+1);
+						s3.setMin(s3.getMin()+1);
 					}
 				}
-			} else {
-				div2 = div;
-			}
-			for(ProblemInstance pr : div2) {
-				if(found == null || found.evalScore > pr.evalScore) {
-					found = pr;
-				}
+				
 			}
 		} else {
-			ArrayList<ProblemInstance> div = new ArrayList<ProblemInstance>();
 			for(int i = 0; i < this.p.getLabSlots().size(); i++) {
 				ProblemInstance temp = new ProblemInstance(p);
 				temp.schedule = copySchedule(this.schedule);
 				c = temp.schedule.get(index);
 				Slot s = temp.p.getLabSlots().get(i);
+				temp.slotIndex =i;
 				c.schedule(s.getId());
-				s.setMax(s.getMax());
-				s.setMin(s.getMin());
+				s.setMax(s.getMax()-1);
+				s.setMin(s.getMin()-1);
 				if(temp.Constr()==BAD_CONSTR) {
 					s.setMax(s.getMax()+1);
 					s.setMin(s.getMin()+1);
 					continue;
 				}
 				temp.Eval();
-				div.add(temp);
-			}
-			ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
-			if (index < this.schedule.size()-1) {
-				for(ProblemInstance pr : div) {
-					ProblemInstance temp = pr.findSchedule(index+1);
-					if (temp != null) {
+				if (index < this.schedule.size()-1) {
+					ProblemInstance temp2 = temp.findSchedule(index+1);
+					if (temp2 != null) {
 						div2.add(temp);
+					}else {
+						Slot s2  = p.getLabSlots().get(temp.slotIndex);
+						s2.setMax(s2.getMax()+1);
+						s2.setMin(s2.getMin()+1);
+						}
+					
+				} else {
+					div2.add(temp);
+				}
+				
+				for(ProblemInstance pr : div2) {
+					if(found == null || found.evalScore > pr.evalScore) {
+						found = pr;
+					}else {
+						Slot s3  = p.getLabSlots().get(pr.slotIndex);
+						s3.setMax(s3.getMax()+1);
+						s3.setMin(s3.getMin()+1);
 					}
 				}
-			} else {
-				div2 = div;
-			}
-			for(ProblemInstance pr : div2) {
-				if(found == null || found.evalScore > pr.evalScore) {
-					found = pr;
-				}
+				
 			}
 		}
 		
@@ -206,7 +221,7 @@ public class ProblemInstance {
 		//Check 500-level courses are in different slots
 		ArrayList<String> times = new ArrayList<String>();
 		for(CoursePair c : this.schedule) {
-			if (c.getCourse().matches(".*5\\d\\d.*")) {
+			if (c.getCourse().matches(".*5\\d\\d.*") && !c.getCourse().matches(".*(LAB|TUT).*")) {
 				if (times.contains(c.getTime())) {
 //					System.out.println("500-level class not scheduled in unique timeslot");
 					return BAD_CONSTR;
