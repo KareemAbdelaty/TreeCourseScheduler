@@ -168,7 +168,7 @@ public class ProblemInstance {
 					time2 = cp.getTime();
 				}
 			}
-			if(time1.equals(time2)) {
+			if(!time1.equals(CoursePair.EMPTY) && time1.equals(time2)) {
 				return BAD_CONSTR;
 			}
 		}
