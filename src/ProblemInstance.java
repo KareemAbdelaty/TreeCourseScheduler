@@ -58,7 +58,7 @@ public class ProblemInstance {
 			ArrayList<ProblemInstance> div = new ArrayList<ProblemInstance>();
 			for(int i = 0; i < this.p.getCoursesSlots().size(); i++) {
 				ProblemInstance temp = new ProblemInstance(p);
-				temp.setSchedule(this.schedule);
+				temp.schedule = copySchedule(this.schedule);
 				c = temp.schedule.get(index);
 				Slot s = temp.p.getCoursesSlots().get(i);
 				c.schedule(s.getId());
@@ -75,7 +75,10 @@ public class ProblemInstance {
 			ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
 			if (index < this.schedule.size()) {
 				for(ProblemInstance pr : div) {
-					div2.add(pr.findSchedule(index+1));
+					ProblemInstance temp = pr.findSchedule(index+1);
+					if (temp != null) {
+						div2.add(temp);
+					}
 				}
 			}
 			for(ProblemInstance pr : div2) {
@@ -87,9 +90,9 @@ public class ProblemInstance {
 			ArrayList<ProblemInstance> div = new ArrayList<ProblemInstance>();
 			for(int i = 0; i < this.p.getLabSlots().size(); i++) {
 				ProblemInstance temp = new ProblemInstance(p);
-				temp.setSchedule(this.schedule);
+				temp.schedule = copySchedule(this.schedule);
 				c = temp.schedule.get(index);
-				Slot s = temp.p.getCoursesSlots().get(i);
+				Slot s = temp.p.getLabSlots().get(i);
 				c.schedule(s.getId());
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
@@ -104,7 +107,10 @@ public class ProblemInstance {
 			ArrayList<ProblemInstance> div2 = new ArrayList<ProblemInstance>();
 			if (index < this.schedule.size()) {
 				for(ProblemInstance pr : div) {
-					div2.add(pr.findSchedule(index+1));
+					ProblemInstance temp = pr.findSchedule(index+1);
+					if (temp != null) {
+						div2.add(temp);
+					}
 				}
 			}
 			for(ProblemInstance pr : div2) {
@@ -113,63 +119,6 @@ public class ProblemInstance {
 				}
 			}
 		}
-//		if(this.isCourse(c.getCourse())) {
-//			for(Slot s : this.p.getCoursesSlots()) {
-//				c.schedule(s.getId());
-//				s.setMax(s.getMax()-1);
-//				s.setMin(s.getMin()-1);
-//				if(this.Constr()==BAD_CONSTR) {
-//					s.setMax(s.getMax()+1);
-//					s.setMin(s.getMin()+1);
-//					continue;
-//				}
-//				if(!this.Eval()) {
-//					s.setMax(s.getMax()+1);
-//					s.setMin(s.getMin()+1);
-//					continue;
-//				}
-//				if(index<this.schedule.size()-1) {
-//					ProblemInstance pr = new ProblemInstance(this.p);
-//					pr.setSchedule(this.schedule);
-//					ProblemInstance result = pr.findSchedule(index+1);
-//					if(result!=null) {
-//						found = result;
-//					} 
-//				}else {
-//					ProblemInstance pr = new ProblemInstance(this.p);
-//					pr.setSchedule(this.schedule);
-//					return pr;
-//				}
-//			}
-//		}else {
-//			for(Slot s : this.p.getLabSlots()) {
-//				c.schedule(s.getId());
-//				s.setMax(s.getMax()-1);
-//				s.setMin(s.getMin()-1);
-//				if(this.Constr()==BAD_CONSTR) {
-//					s.setMax(s.getMax()+1);
-//					s.setMin(s.getMin()+1);
-//					continue;
-//				}
-//				if(!this.Eval()) {
-//					s.setMax(s.getMax()+1);
-//					s.setMin(s.getMin()+1);
-//					continue;
-//				}
-//				if(index<this.schedule.size()-1) {
-//					ProblemInstance pr = new ProblemInstance(this.p);
-//					pr.setSchedule(this.schedule);
-//					ProblemInstance result = pr.findSchedule(index+1);
-//					if(result!=null) {
-//						found = result;
-//					} 
-//				}else {
-//					ProblemInstance pr = new ProblemInstance(this.p);
-//					pr.setSchedule(this.schedule);
-//					return pr;
-//				}
-//			}
-//		}
 		
 		return found;
 
@@ -483,6 +432,14 @@ public class ProblemInstance {
 	public void sort() {
 		Collections.sort(this.schedule);
 		
+	}
+	
+	public ArrayList<CoursePair> copySchedule(ArrayList<CoursePair> source){
+		ArrayList<CoursePair> temp = new ArrayList<CoursePair>();
+		for(CoursePair cp : source) {
+			temp.add(new CoursePair(cp.getCourse(), cp.getTime()));
+		}
+		return temp;
 	}
 
 }
