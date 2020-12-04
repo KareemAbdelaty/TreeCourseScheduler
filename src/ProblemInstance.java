@@ -7,7 +7,7 @@ public class ProblemInstance {
 	public static final int BAD_CONSTR = 1; //schedule breaks some hard constraint
 	public static final int PART_CONSTR = 2; //schedule is incomplete (some classes unassigned) but otherwise breaks no constraints
 	public static final int GOOD_CONSTR = 3; //schedule is complete, breaks no constraints
-	private static int evalScore = Integer.MAX_VALUE; 
+	private int evalScore = Integer.MAX_VALUE; 
 	public static int wmin;
 	public static int pref;
 	public static int pair;
@@ -54,81 +54,133 @@ public class ProblemInstance {
 	public  ProblemInstance findSchedule(int index) {
 		ProblemInstance found = null;
 		CoursePair c = this.schedule.get(index);
-//		if(this.isCourse(c.getCourse())) {
-//			
-//		} else {
-//			
-//		}
 		if(this.isCourse(c.getCourse())) {
-			for(Slot s : this.p.getCoursesSlots()) {
+			ArrayList<ProblemInstance> div = new ArrayList<ProblemInstance>();
+			for(int i = 0; i < this.p.getCoursesSlots().size(); i++) {
+				ProblemInstance temp = new ProblemInstance(p);
+				temp.setSchedule(this.schedule);
+				c = temp.schedule.get(index);
+				Slot s = temp.p.getCoursesSlots().get(i);
 				c.schedule(s.getId());
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
-				if(this.Constr()==BAD_CONSTR) {
+				if(temp.Constr()==BAD_CONSTR) {
 					s.setMax(s.getMax()+1);
 					s.setMin(s.getMin()+1);
 					continue;
 				}
-				if(!this.Eval()) {
-					s.setMax(s.getMax()+1);
-					s.setMin(s.getMin()+1);
-					continue;
-				}
-				if(index<this.schedule.size()-1) {
-					ProblemInstance pr = new ProblemInstance(this.p);
-					pr.setSchedule(this.schedule);
-					ProblemInstance result = pr.findSchedule(index+1);
-					if(result!=null) {
-						found = result;
-					} 
-				}else {
-					ProblemInstance pr = new ProblemInstance(this.p);
-					pr.setSchedule(this.schedule);
-					return pr;
+				temp.Eval();
+				div.add(temp);
+			}
+			if (index < this.schedule.size()) {
+				for(ProblemInstance pr : div) {
+					pr = pr.findSchedule(index+1);
 				}
 			}
-		}else {
-			for(Slot s : this.p.getLabSlots()) {
+			for(ProblemInstance pr : div) {
+				if(found == null || found.evalScore > pr.evalScore) {
+					found = pr;
+				}
+			}
+		} else {
+			ArrayList<ProblemInstance> div = new ArrayList<ProblemInstance>();
+			for(int i = 0; i < this.p.getLabSlots().size(); i++) {
+				ProblemInstance temp = new ProblemInstance(p);
+				temp.setSchedule(this.schedule);
+				c = temp.schedule.get(index);
+				Slot s = temp.p.getCoursesSlots().get(i);
 				c.schedule(s.getId());
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
-				if(this.Constr()==BAD_CONSTR) {
+				if(temp.Constr()==BAD_CONSTR) {
 					s.setMax(s.getMax()+1);
 					s.setMin(s.getMin()+1);
 					continue;
 				}
-				if(!this.Eval()) {
-					s.setMax(s.getMax()+1);
-					s.setMin(s.getMin()+1);
-					continue;
+				temp.Eval();
+				div.add(temp);
+			}
+			if (index < this.schedule.size()) {
+				for(ProblemInstance pr : div) {
+					pr = pr.findSchedule(index+1);
 				}
-				if(index<this.schedule.size()-1) {
-					ProblemInstance pr = new ProblemInstance(this.p);
-					pr.setSchedule(this.schedule);
-					ProblemInstance result = pr.findSchedule(index+1);
-					if(result!=null) {
-						found = result;
-					} 
-				}else {
-					ProblemInstance pr = new ProblemInstance(this.p);
-					pr.setSchedule(this.schedule);
-					return pr;
+			}
+			for(ProblemInstance pr : div) {
+				if(found == null || found.evalScore > pr.evalScore) {
+					found = pr;
 				}
 			}
 		}
+//		if(this.isCourse(c.getCourse())) {
+//			for(Slot s : this.p.getCoursesSlots()) {
+//				c.schedule(s.getId());
+//				s.setMax(s.getMax()-1);
+//				s.setMin(s.getMin()-1);
+//				if(this.Constr()==BAD_CONSTR) {
+//					s.setMax(s.getMax()+1);
+//					s.setMin(s.getMin()+1);
+//					continue;
+//				}
+//				if(!this.Eval()) {
+//					s.setMax(s.getMax()+1);
+//					s.setMin(s.getMin()+1);
+//					continue;
+//				}
+//				if(index<this.schedule.size()-1) {
+//					ProblemInstance pr = new ProblemInstance(this.p);
+//					pr.setSchedule(this.schedule);
+//					ProblemInstance result = pr.findSchedule(index+1);
+//					if(result!=null) {
+//						found = result;
+//					} 
+//				}else {
+//					ProblemInstance pr = new ProblemInstance(this.p);
+//					pr.setSchedule(this.schedule);
+//					return pr;
+//				}
+//			}
+//		}else {
+//			for(Slot s : this.p.getLabSlots()) {
+//				c.schedule(s.getId());
+//				s.setMax(s.getMax()-1);
+//				s.setMin(s.getMin()-1);
+//				if(this.Constr()==BAD_CONSTR) {
+//					s.setMax(s.getMax()+1);
+//					s.setMin(s.getMin()+1);
+//					continue;
+//				}
+//				if(!this.Eval()) {
+//					s.setMax(s.getMax()+1);
+//					s.setMin(s.getMin()+1);
+//					continue;
+//				}
+//				if(index<this.schedule.size()-1) {
+//					ProblemInstance pr = new ProblemInstance(this.p);
+//					pr.setSchedule(this.schedule);
+//					ProblemInstance result = pr.findSchedule(index+1);
+//					if(result!=null) {
+//						found = result;
+//					} 
+//				}else {
+//					ProblemInstance pr = new ProblemInstance(this.p);
+//					pr.setSchedule(this.schedule);
+//					return pr;
+//				}
+//			}
+//		}
 		
 		return found;
 
 	}
 	
-	public static int getEvalScore() {
+	public int getEvalScore() {
 		return evalScore;
 	}
 
 
 
-	public static void setEvalScore(int evalScore) {
-		ProblemInstance.evalScore = evalScore;
+	public void setEvalScore(int evalScore) {
+		this.evalScore = evalScore;
 	}
 
 
@@ -250,15 +302,8 @@ public class ProblemInstance {
 		}
 	} 
 	
-	public boolean Eval() {
-		int e = (this.Evalwmin() * wmin) + (pref*this.Evalpref()) + (pair*this.Evalpair() ) + (secdeff*this.Evalsecdeff());
-		if(e<=evalScore) {
-			evalScore =e;
-			return true;
-		}
-		else {
-			return false;
-		}
+	public void Eval() {
+		this.evalScore = (this.Evalwmin() * wmin) + (pref*this.Evalpref()) + (pair*this.Evalpair() ) + (secdeff*this.Evalsecdeff());
 	}
 
 	private int Evalpair() {		
@@ -433,11 +478,10 @@ public class ProblemInstance {
 	}
 }
 
-
-
 	public void sort() {
 		Collections.sort(this.schedule);
 		
 	}
+
 }
 
