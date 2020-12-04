@@ -1,7 +1,7 @@
 
-public class CoursePair {
+public class CoursePair implements Comparable<CoursePair> {
 	
-	public final String EMPTY = "EMPTY";
+	public final static String EMPTY = "EMPTY";
 	
 	private String course;
 	private String timeslot;
@@ -31,5 +31,29 @@ public class CoursePair {
 	public void unschedule() {
 		this.timeslot = EMPTY;
 	}
+	
+	public boolean equals(Object o) {
+		if (o == this) { 
+            return true; 
+        } 
+        if (!(o instanceof CoursePair)) { 
+            return false; 
+        } 
+        CoursePair c = (CoursePair) o;
+		return course.equals(c.getCourse())&&timeslot.equals(c.getTime());
+	}
+	@Override
+	  public int compareTo(CoursePair cp){
+			if(cp.getTime().equals(CoursePair.EMPTY)&&this.getTime().equals(EMPTY)){
+				return 0;
+			}else if((!cp.getTime().equals(CoursePair.EMPTY))&&this.getTime().equals(EMPTY)) {
+				return 1;
+			}else {
+				return -1;
+			}
+			
+	     
+	  }
+	
 	
 }

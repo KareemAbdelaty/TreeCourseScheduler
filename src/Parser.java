@@ -17,7 +17,8 @@ class Parser{
 	private HashMap<CoursePair,String> preferences;
 	private ArrayList<CoursePair> pairs;
 	private ArrayList<CoursePair> partials;
-	private HashMap<String,Slot> slots;
+	private HashMap<String,Slot> cslots; //ids to slots for courses
+	private HashMap<String,Slot> lslots; //ids to slots for labs
 	
 	public Parser(){
 		this.coursesSlots = new ArrayList<Slot>(); //
@@ -29,7 +30,8 @@ class Parser{
 		this.preferences = new HashMap<CoursePair,String>();
 		this.pairs = new ArrayList<CoursePair>();
 		this.partials = new ArrayList<CoursePair>();
-		this.slots = new HashMap<String,Slot>();
+		this.cslots = new HashMap<String,Slot>();
+		this.lslots = new HashMap<String,Slot>();
 	}
 	
 	
@@ -89,38 +91,38 @@ class Parser{
 			String[] temp =  line.split(",");
 			Slot c = new Slot(temp[0].trim(),temp[1].trim(),Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[3].trim()),true);
 			this.coursesSlots.add(c);
-			this.slots.put(c.getId(),c);
+			this.cslots.put(c.getId(),c);
 		}else if(mode ==3){
 			String[] temp =  line.split(",");
 			Slot l = new Slot(temp[0].trim(),temp[1].trim(),Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[3].trim()),false);
 			this.labSlots.add(l);
-			this.slots.put(l.getId(),l);
+			this.lslots.put(l.getId(),l);
 		}else if(mode ==4){
-			this.courseIdentifiers.add(line);
+			this.courseIdentifiers.add(line.trim());
 		}else if(mode ==5){
-			this.LabIdentifiers.add(line);
+			this.LabIdentifiers.add(line.trim());
 		}else if(mode ==6){
 			String[] temp =  line.split(",");
-			CoursePair u = new CoursePair(temp[0],temp[1]);
+			CoursePair u = new CoursePair(temp[0].trim(),temp[1].trim());
 			this.notCompatible.add(u);
 		}else if(mode ==7){
 			String[] temp =  line.split(",");
-			Slot s = new Slot(temp[1],temp[2]);
+			Slot s = new Slot(temp[1].trim(),temp[2].trim());
 			CoursePair u = new CoursePair(temp[0],s.getId());
 			this.unWanted.add(u);
 		}else if(mode ==8){
 			String[] temp =  line.split(",");
-			Slot s = new Slot(temp[1],temp[2]);
-			CoursePair u = new CoursePair(temp[0],s.getId());
+			Slot s = new Slot(temp[1].trim(),temp[2].trim());
+			CoursePair u = new CoursePair(temp[0].trim(),s.getId());
 			this.preferences.put(u,temp[3]);
 		}else if(mode ==9){
 			String[] temp =  line.split(",");
-			CoursePair u = new CoursePair(temp[0],temp[1]);
+			CoursePair u = new CoursePair(temp[0].trim(),temp[1].trim());
 			this.pairs.add(u);
 		}else if(mode == 10){
 			String[] temp =  line.split(",");
-			Slot s = new Slot(temp[1],temp[2]);
-			CoursePair u = new CoursePair(temp[0],s.getId());
+			Slot s = new Slot(temp[1].trim(),temp[2].trim());
+			CoursePair u = new CoursePair(temp[0].trim(),s.getId());
 			this.partials.add(u);
 		}
 		
@@ -231,13 +233,26 @@ class Parser{
 	}
 
 
-	public HashMap<String, Slot> getSlots() {
-		return slots;
+	public HashMap<String, Slot> getCslots() {
+		return cslots;
 	}
 
 
-	public void setSlots(HashMap<String, Slot> slots) {
-		this.slots = slots;
+	public void setCslots(HashMap<String, Slot> cslots) {
+		this.cslots = cslots;
 	}
+
+
+	public HashMap<String, Slot> getLslots() {
+		return lslots;
+	}
+
+
+	public void setLslots(HashMap<String, Slot> lslots) {
+		this.lslots = lslots;
+	}
+
+
+
 	
 }
