@@ -108,13 +108,13 @@ class Parser{
 		}else if(mode ==7){
 			String[] temp =  line.split(",");
 			Slot s = new Slot(temp[1].trim(),temp[2].trim());
-			CoursePair u = new CoursePair(temp[0],s.getId());
+			CoursePair u = new CoursePair(temp[0].trim(),s.getId());
 			this.unWanted.add(u);
 		}else if(mode ==8){
 			String[] temp =  line.split(",");
 			Slot s = new Slot(temp[1].trim(),temp[2].trim());
 			CoursePair u = new CoursePair(temp[0].trim(),s.getId());
-			this.preferences.put(u,temp[3]);
+			this.preferences.put(u,temp[3].trim());
 		}else if(mode ==9){
 			String[] temp =  line.split(",");
 			CoursePair u = new CoursePair(temp[0].trim(),temp[1].trim());

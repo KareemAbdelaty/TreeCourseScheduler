@@ -60,19 +60,43 @@ public class ProblemInstance {
 				c.schedule(s.getId());
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
-				if(this.Constr()==BAD_CONSTR) {
+/*				if(this.Constr()==BAD_CONSTR) {
 					continue;
-				}
+				}*/
 				if(!this.Eval()) {
 					continue;
 				}
-				ProblemInstance pr = new ProblemInstance(this.p);
-				pr.setSchedule(this.schedule);
-				if(this.findSchedule(p, index)!=null) {
-					found = this.findSchedule(p, index);
-				} 
+				if(index<this.schedule.size()-1) {
+					ProblemInstance pr = new ProblemInstance(this.p);
+					pr.setSchedule(this.schedule);
+					ProblemInstance result = pr.findSchedule(pr, index+1);
+					if(result!=null) {
+						found = result;
+					} 
+				}
+			}
+		}else {
+			for(Slot s : this.p.getLabSlots()) {
+				c.schedule(s.getId());
+				s.setMax(s.getMax()-1);
+				s.setMin(s.getMin()-1);
+/*				if(this.Constr()==BAD_CONSTR) {
+					continue;
+				}*/
+				if(!this.Eval()) {
+					continue;
+				}
+				if(index<this.schedule.size()-1) {
+					ProblemInstance pr = new ProblemInstance(this.p);
+					pr.setSchedule(this.schedule);
+					ProblemInstance result = pr.findSchedule(pr, index+1);
+					if(result!=null) {
+						found = result;
+					} 
+				}
 			}
 		}
+		
 		return found;
 
 	}
@@ -146,7 +170,7 @@ public class ProblemInstance {
 	
 	public boolean Eval() {
 		int e = (this.Evalwmin() * wmin) + (pref*this.Evalpref()) + (pair*this.Evalpair() ) + (secdeff*this.Evalsecdeff());
-		if(e>evalScore) {
+		if(e<evalScore) {
 			evalScore =e;
 			return true;
 		}
