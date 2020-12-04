@@ -22,7 +22,6 @@ public class ProblemInstance {
 	
 	public ProblemInstance(Parser pa) {
 		this.p = pa;
-		this.evalScore = -1;
 		this.schedule = p.getPartials();
 		for(String c : p.getCourseIdentifiers()) {
 			boolean exists = false;
