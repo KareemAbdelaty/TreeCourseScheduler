@@ -55,6 +55,11 @@ public class ProblemInstance {
 	public  ProblemInstance findSchedule(int index) {
 		ProblemInstance found = null;
 		CoursePair c = this.schedule.get(index);
+//		if(this.isCourse(c.getCourse())) {
+//			
+//		} else {
+//			
+//		}
 		if(this.isCourse(c.getCourse())) {
 			for(Slot s : this.p.getCoursesSlots()) {
 				c.schedule(s.getId());
@@ -147,12 +152,14 @@ public class ProblemInstance {
 		//bad if a slot has too many courses
 		for(Slot s : this.p.getCoursesSlots()) {
 			if(s.getMax() <= 0) {
+				System.out.println("Course slot overscheduled");
 				return BAD_CONSTR;
 			}
 		}
 		// same as above, for labs
 		for(Slot s : this.p.getLabSlots()) {
 			if(s.getMax() <= 0) {
+				System.out.println("Lab slot overscheduled");
 				return BAD_CONSTR;
 			}
 		}
@@ -169,6 +176,7 @@ public class ProblemInstance {
 				}
 			}
 			if(!time1.equals(CoursePair.EMPTY) && time1.equals(time2)) {
+				System.out.println("Incompatible class pair");
 				return BAD_CONSTR;
 			}
 		}
@@ -176,6 +184,7 @@ public class ProblemInstance {
 		for(CoursePair c : p.getUnWanted()) {
 			for(CoursePair cp : this.schedule) {
 				if(cp.getCourse().equals(c.getCourse())&&(cp.getTime().equals(c.getTime()))) {
+					System.out.println("Unwanted class pair");
 					return BAD_CONSTR;
 				}
 			}
@@ -183,6 +192,7 @@ public class ProblemInstance {
 		//Check evening courses are in the evening
 		for(CoursePair c : this.schedule) {
 			if(c.getCourse().contains("LEC 9") && Integer.getInteger(c.getTime().substring(2, 3)) <= 18) {
+				System.out.println("Evening class not scheduled in evening");
 				return BAD_CONSTR;
 			}
 		}
@@ -191,14 +201,17 @@ public class ProblemInstance {
 		for(CoursePair c : this.schedule) {
 			if (c.getCourse().matches(".*5\\d\\d.*")) {
 				if (times.contains(c.getTime())) {
+					System.out.println("500-level class not scheduled in unique timeslot");
 					return BAD_CONSTR;
+				} else if (!c.getTime().equals(CoursePair.EMPTY)) {
+					times.add(c.getTime());
 				}
-				times.add(c.getTime());
 			}
 		}
 		//check nothing scheduled 11:00-12:30 TTh
 		for(CoursePair c : this.schedule) {
-			if(c.getCourse().contains("TU") && Integer.getInteger(c.getTime().substring(2, 3)) >= 11 && Integer.getInteger(c.getTime().substring(2, 3)) < 13) {
+			if(c.getTime().contains("TU") && Integer.parseInt(c.getTime().substring(2)) == 11) {
+				System.out.println("Class scheduled at lunchtime on Tuesday");
 				return BAD_CONSTR;
 			}
 		}
@@ -206,20 +219,24 @@ public class ProblemInstance {
 		for(CoursePair c : this.schedule) {
 			if(c.getCourse().contains("CPSC 813")) {
 				if(!c.getTime().equals("TU18")){
+					System.out.println("813 scheduled at wrong time");
 					return BAD_CONSTR;
 				}
 				for(CoursePair cp : this.schedule) {
 					if(cp.getCourse().contains("CPSC 313") && cp.getTime().equals(c.getTime())) {
+						System.out.println("813 scheduling incompatible");
 						return BAD_CONSTR;
 					}
 				}
 			}
 			if(c.getCourse().contains("CPSC 913")) {
 				if(!c.getTime().equals("TU18")){
+					System.out.println("913 scheduled at wrong time");
 					return BAD_CONSTR;
 				}
 				for(CoursePair cp : this.schedule) {
 					if(cp.getCourse().contains("CPSC 413") && cp.getTime().equals(c.getTime())) {
+						System.out.println("913 scheduling incompatible");
 						return BAD_CONSTR;
 					}
 				}
