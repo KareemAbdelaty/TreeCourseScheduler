@@ -60,9 +60,9 @@ public class ProblemInstance {
 				c.schedule(s.getId());
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
-/*				if(this.Constr()==BAD_CONSTR) {
+				if(this.Constr()==BAD_CONSTR) {
 					continue;
-				}*/
+				}
 				if(!this.Eval()) {
 					continue;
 				}
@@ -73,6 +73,10 @@ public class ProblemInstance {
 					if(result!=null) {
 						found = result;
 					} 
+				}else {
+					ProblemInstance pr = new ProblemInstance(this.p);
+					pr.setSchedule(this.schedule);
+					return pr;
 				}
 			}
 		}else {
@@ -80,9 +84,9 @@ public class ProblemInstance {
 				c.schedule(s.getId());
 				s.setMax(s.getMax()-1);
 				s.setMin(s.getMin()-1);
-/*				if(this.Constr()==BAD_CONSTR) {
+				if(this.Constr()==BAD_CONSTR) {
 					continue;
-				}*/
+				}
 				if(!this.Eval()) {
 					continue;
 				}
@@ -93,6 +97,10 @@ public class ProblemInstance {
 					if(result!=null) {
 						found = result;
 					} 
+				}else {
+					ProblemInstance pr = new ProblemInstance(this.p);
+					pr.setSchedule(this.schedule);
+					return pr;
 				}
 			}
 		}
