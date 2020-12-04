@@ -195,7 +195,6 @@ public class ProblemInstance {
 			}
 		}
 		//Check 813 and 913 are in the right time.
-		times.clear();
 		for(CoursePair c : this.schedule) {
 			if(c.getCourse().contains("CPSC 813")) {
 				if(!c.getTime().equals("TU18")){
@@ -229,7 +228,7 @@ public class ProblemInstance {
 	
 	public boolean Eval() {
 		int e = (this.Evalwmin() * wmin) + (pref*this.Evalpref()) + (pair*this.Evalpair() ) + (secdeff*this.Evalsecdeff());
-		if(e<evalScore) {
+		if(e<=evalScore) {
 			evalScore =e;
 			return true;
 		}
@@ -309,6 +308,7 @@ public class ProblemInstance {
         } 
 		return sum;
 	}
+	
 	public boolean isCourse(String s) {
 		boolean result =true;
 		String[] temp = s.split("LEC");
@@ -320,18 +320,22 @@ public class ProblemInstance {
 		}
 		return result;
 	}
+	
 	public String getCoursename(String s) {
 		String[] temp = s.split("LEC");
 		return temp[0];
 	}
+	
 	public String getCourseSection(String s) {
 		String[] temp = s.split("LEC");
 		return temp[1];
 	}
+	
 	public String getLabName(String s) {
 		String[] temp = s.split("LEC");
 		return temp[0];
 	}
+	
 	public String getLabSection(String s) {
 		String[] temp = s.split("LEC");
 		if(temp.length == 1) {
