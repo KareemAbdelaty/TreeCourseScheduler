@@ -321,12 +321,12 @@ public class ProblemInstance {
 	private int Evalwmin() {
 		int sum =0;
 		for(Slot s : this.p.getCoursesSlots()) {
-			if(s.getMin()!=0) {
+			if(s.getMin()>0) {
 				sum += pen_coursemin;
 			}
 		}
 		for(Slot s : this.p.getLabSlots()) {
-			if(s.getMin()!=0) {
+			if(s.getMin()>0) {
 				sum += pen_labmin;
 			}
 		}
