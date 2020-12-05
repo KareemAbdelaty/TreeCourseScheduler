@@ -75,7 +75,7 @@ public class ProblemInstance {
 				if (index < this.schedule.size()-1) {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
-						div2.add(temp);
+						div2.add(temp2);
 					}else {
 						Slot s2  = p.getCoursesSlots().get(temp.slotIndex);
 						s2.setMax(s2.getMax()+1);
@@ -116,7 +116,7 @@ public class ProblemInstance {
 				if (index < this.schedule.size()-1) {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
-						div2.add(temp);
+						div2.add(temp2);
 					}else {
 						Slot s2  = p.getLabSlots().get(temp.slotIndex);
 						s2.setMax(s2.getMax()+1);

@@ -37,7 +37,7 @@ public class Driver {
 		if(result == null) {
 			System.out.println("No possible solution with given parameter");
 		}else {
-			System.out.println("Eval value is" + result.getEvalScore());
+			System.out.println("Eval score is " + result.getEvalScore());
 			for(CoursePair c : result.getSchedule()) {
 				System.out.println(c.getCourse() + " : " + c.getTime());
 			}
