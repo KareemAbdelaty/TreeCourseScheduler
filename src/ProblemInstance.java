@@ -89,7 +89,7 @@ public class ProblemInstance {
 				}
 				s.setMax(s.getMax()+1);
 				s.setMin(s.getMin()+1);	
-			}
+			}	
 		} else {
 			for(int i = 0; i < this.p.getLabSlots().size(); i++) {
 				ProblemInstance temp = new ProblemInstance(p);
@@ -168,6 +168,26 @@ public class ProblemInstance {
 			if(s.getMax() < 0) {
 //				System.out.println("Lab slot overscheduled");
 				return BAD_CONSTR;
+			}
+		}
+		// course and labs for the same section on the same slot
+		for(CoursePair c : this.schedule) {
+			if(c.getTime() == CoursePair.EMPTY) {
+				continue;
+			}
+			for(CoursePair cp : this.schedule) {
+				if(cp.getTime() == CoursePair.EMPTY) {
+					continue;
+				}
+				if((isCourse(c.getCourse())&&!isCourse(cp.getCourse()))||(!isCourse(c.getCourse())&&isCourse(cp.getCourse()))) {
+					if(c.getTime().equals(cp.getTime())) {
+						return BAD_CONSTR;
+					}
+					
+				}else {
+					continue;
+				}
+
 			}
 		}
 		//check each course against each other course for incompatibilities
