@@ -76,11 +76,7 @@ public class ProblemInstance {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
 						div2.add(temp2);
-					}else {
-						Slot s2  = p.getCoursesSlots().get(temp.slotIndex);
-						s2.setMax(s2.getMax()+1);
-						s2.setMin(s2.getMin()+1);
-						}
+					}
 					
 				} else {
 					div2.add(temp);
@@ -89,13 +85,10 @@ public class ProblemInstance {
 				for(ProblemInstance pr : div2) {
 					if(found == null || found.evalScore > pr.evalScore) {
 						found = pr;
-					}else {
-						Slot s3  = p.getCoursesSlots().get(pr.slotIndex);
-						s3.setMax(s3.getMax()+1);
-						s3.setMin(s3.getMin()+1);
 					}
 				}
-				
+				s.setMax(s.getMax()+1);
+				s.setMin(s.getMin()+1);	
 			}
 		} else {
 			for(int i = 0; i < this.p.getLabSlots().size(); i++) {
@@ -117,12 +110,7 @@ public class ProblemInstance {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
 						div2.add(temp2);
-					}else {
-						Slot s2  = p.getLabSlots().get(temp.slotIndex);
-						s2.setMax(s2.getMax()+1);
-						s2.setMin(s2.getMin()+1);
-						}
-					
+					}	
 				} else {
 					div2.add(temp);
 				}
@@ -130,13 +118,10 @@ public class ProblemInstance {
 				for(ProblemInstance pr : div2) {
 					if(found == null || found.evalScore > pr.evalScore) {
 						found = pr;
-					}else {
-						Slot s3  = p.getLabSlots().get(pr.slotIndex);
-						s3.setMax(s3.getMax()+1);
-						s3.setMin(s3.getMin()+1);
 					}
 				}
-				
+				s.setMax(s.getMax()+1);
+				s.setMin(s.getMin()+1);		
 			}
 		}
 		
