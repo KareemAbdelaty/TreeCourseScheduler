@@ -72,11 +72,6 @@ public class ProblemInstance {
 					continue;
 				}
 				temp.Eval();
-				if(found.evalScore < temp.evalScore) {
-					s.setMax(s.getMax()+1);
-					s.setMin(s.getMin()+1);
-					continue;
-				}
 				if (index < this.schedule.size()-1) {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
@@ -111,11 +106,6 @@ public class ProblemInstance {
 					continue;
 				}
 				temp.Eval();
-				if(found.evalScore < temp.evalScore) {
-					s.setMax(s.getMax()+1);
-					s.setMin(s.getMin()+1);
-					continue;
-				}
 				if (index < this.schedule.size()-1) {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
