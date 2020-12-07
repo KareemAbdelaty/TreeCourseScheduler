@@ -218,7 +218,7 @@ public class ProblemInstance {
 		}
 		//Check evening courses are in the evening
 		for(CoursePair c : this.schedule) {
-			if(c.getCourse().contains("LEC 9") && Integer.getInteger(c.getTime().substring(2, 3)) <= 18) {
+			if(c.getCourse().contains("LEC9") && !c.getTime().equals(CoursePair.EMPTY) && Integer.parseInt(c.getTime().substring(2)) <= 18) {
 //				System.out.println("Evening class not scheduled in evening");
 				return BAD_CONSTR;
 			}
