@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Driver {
 
@@ -25,6 +26,7 @@ public class Driver {
 		pr.pen_notpaired = Integer.parseInt(args[7]);
 		pr.pen_section = Integer.parseInt(args[8]);
 		pr.sort();
+		ArrayList<String> tempstrings = new ArrayList<String>();
 		int index =0;		
 		ArrayList<CoursePair> temp = pr.getSchedule();
 		for(int x= 0 ;x< temp.size();x++) {
@@ -37,12 +39,16 @@ public class Driver {
 		if(result == null) {
 			System.out.println("No possible solution with given parameter");
 		}else {
-			System.out.println("Eval score is " + result.getEvalScore());
+			System.out.println("Eval-value: " + result.getEvalScore());
 			for(CoursePair c : result.getSchedule()) {
-				System.out.println(c.getCourse() + " : " + c.getTime());
+				tempstrings.add(String.format("%-25s: %s\n", c.getCourse(), c.getTime2()));
+			}
+			Collections.sort(tempstrings);
+			for (String s : tempstrings) {
+				System.out.print(s);
 			}
 		}
-		
+
 
 		
 	}

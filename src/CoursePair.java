@@ -54,6 +54,30 @@ public class CoursePair implements Comparable<CoursePair> {
 			
 	     
 	  }
+	//For returning printable time
+	public String getTime2() {
+		String time2 = "" + this.getTime().substring(0,2) + ", ";
+		if (Integer.parseInt(timeslot.substring(2,3)) != 1) {
+			time2 = time2 + " ";
+		}
+		
+		time2 = time2 + this.getTime().substring(2) + ":";
+		if ((this.getTime().contains("T"))) {
+			//System.out.println("found tuesday");
+			if ((this.getTime().substring(2).equals("9")) ||
+					(this.getTime().substring(2).equals("12")) ||
+					(this.getTime().substring(2).equals("15")) ||
+					(this.getTime().substring(2).equals("18"))) {
+				time2 = time2 + "30";
+			} else {
+				time2 = time2 + "00";
+			}
+		} else {
+			time2 = time2 + "00";
+		}
+		
+		return time2;
+	}
 	
 	
 }
