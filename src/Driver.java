@@ -5,11 +5,11 @@ public class Driver {
 
 	public static void main(String[] args) {
 		// Parse
-		if(args.length < 9) {
+		if(args.length < 10) {
 			System.out.println("Too few arguments");
 			System.out.println("Usage is: ");
 			System.out.println("filepath wmin wpref wpair wsecdeff ");
-			System.out.println("pen_coursemin pen_labmin pen_notpaired pen_section ");
+			System.out.println("pen_coursemin pen_labmin pen_notpaired pen_section OutFile ");
 		}
 		Parser p =  new Parser();
 		System.out.println("Proccessing file");
@@ -28,6 +28,7 @@ public class Driver {
 		ProblemInstance.pen_labmin = Integer.parseInt(args[6]);
 		ProblemInstance.pen_notpaired = Integer.parseInt(args[7]);
 		ProblemInstance.pen_section = Integer.parseInt(args[8]);
+		ProblemInstance.file = args[9];
 		pr.sort();
 		ArrayList<String> tempstrings = new ArrayList<String>();
 		int index =0;		

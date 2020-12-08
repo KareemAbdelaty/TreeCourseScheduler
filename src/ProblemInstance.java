@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,6 +20,7 @@ public class ProblemInstance {
 	public static int pen_labmin;
 	public static int pen_notpaired;
 	public static int pen_section;
+	public static String file;
 	
 	private ArrayList<CoursePair> schedule;
 	private Parser p;
@@ -86,6 +89,7 @@ public class ProblemInstance {
 					
 				} else {
 					div2.add(temp);
+					temp.write();
 				}
 				
 				for(ProblemInstance pr : div2) {
@@ -93,6 +97,7 @@ public class ProblemInstance {
 						found = pr;
 						ProblemInstance.evalScoreP = pr.evalScore;
 						System.out.println("Updated EvalScore is " + ProblemInstance.evalScoreP);
+						pr.write();
 					}
 				}
 				s.setMax(s.getMax()+1);
@@ -126,6 +131,7 @@ public class ProblemInstance {
 					}	
 				} else {
 					div2.add(temp);
+					temp.write();
 				}
 				
 				for(ProblemInstance pr : div2) {
@@ -133,6 +139,7 @@ public class ProblemInstance {
 						found = pr;
 						ProblemInstance.evalScoreP = pr.evalScore;
 						System.out.println("Updated EvalScore is " + ProblemInstance.evalScoreP);
+						pr.write();
 						
 					}
 				}
@@ -143,6 +150,26 @@ public class ProblemInstance {
 		
 		return found;
 
+	}
+	public void write() {
+		ArrayList<String> tempstrings = new ArrayList<String>();
+		for(CoursePair c : this.getSchedule()) {
+			tempstrings.add(String.format("%-25s: %s\n", c.getCourse(), c.getTime2()));
+		}
+	    try {
+	        FileWriter myWriter = new FileWriter(ProblemInstance.file);
+	        myWriter.write("Eval Score is " + this.getEvalScore() + "\n");
+			Collections.sort(tempstrings);
+			for (String s : tempstrings) {
+				myWriter.write(s);
+			}
+			myWriter.flush();
+	        myWriter.close();
+	        System.out.println("Successfully wrote to the file.");
+	      } catch (IOException e) {
+	        System.out.println("An error occurred.");
+	        e.printStackTrace();
+	      }
 	}
 	
 	public int getEvalScore() {
