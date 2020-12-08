@@ -255,5 +255,16 @@ class Parser {
 	public void setLslots(HashMap<String, Slot> lslots) {
 		this.lslots = lslots;
 	}
+	public boolean isCourse(String s) {
+		boolean result =true;
+		String[] temp = s.split("LEC");
+		if(temp.length == 1) {
+			result = false;
+		}
+		else if(temp[1].length() > 2) {
+			result = false;
+		}
+		return result;
+	}
 
 }
