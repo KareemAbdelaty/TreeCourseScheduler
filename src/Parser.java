@@ -103,6 +103,12 @@ class Parser {
 				break;
 			case 4:
 				this.courseIdentifiers.add(line);
+				if(line.contains("CPSC413")) {
+					this.courseIdentifiers.add("CPSC913");
+				}
+				else if(line.contains("CPSC313")) {
+					this.courseIdentifiers.add("CPSC813");
+				}
 				break;
 			case 5:
 				this.LabIdentifiers.add(line);
@@ -111,6 +117,20 @@ class Parser {
 				temp = line.split(",");
 				CoursePair u = new CoursePair(temp[0], temp[1]);
 				this.notCompatible.add(u);
+				if(temp[0].contains("CPSC413")) {
+					CoursePair u2 = new CoursePair("CPSC913", temp[1]);
+					this.notCompatible.add(u2);
+				}else if(temp[1].contains("CPSC413")) {
+					CoursePair u2 = new CoursePair(temp[0], "CPSC913");
+					this.notCompatible.add(u2);
+				}
+				if(temp[0].contains("CPSC313")) {
+					CoursePair u2 = new CoursePair("CPSC813", temp[1]);
+					this.notCompatible.add(u2);
+				}else if(temp[1].contains("CPSC313")) {
+					CoursePair u2 = new CoursePair(temp[0], "CPSC813");
+					this.notCompatible.add(u2);
+				}
 				break;
 			case 7:
 				temp = line.split(",");

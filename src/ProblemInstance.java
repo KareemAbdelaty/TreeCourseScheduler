@@ -287,25 +287,25 @@ public class ProblemInstance {
 		}
 		//Check 813 and 913 are in the right time.
 		for(CoursePair c : this.schedule) {
-			if(c.getCourse().contains("CPSC 813")) {
+			if(c.getCourse().contains("CPSC813")) {
 				if(!c.getTime().equals("TU18")){
 //					System.out.println("813 scheduled at wrong time");
 					return BAD_CONSTR;
 				}
 				for(CoursePair cp : this.schedule) {
-					if(cp.getCourse().contains("CPSC 313") && cp.getTime().equals(c.getTime())) {
+					if(cp.getCourse().contains("CPSC313") && cp.getTime().equals(c.getTime())) {
 //						System.out.println("813 scheduling incompatible");
 						return BAD_CONSTR;
 					}
 				}
 			}
-			if(c.getCourse().contains("CPSC 913")) {
+			if(c.getCourse().contains("CPSC913")) {
 				if(!c.getTime().equals("TU18")){
 //					System.out.println("913 scheduled at wrong time");
 					return BAD_CONSTR;
 				}
 				for(CoursePair cp : this.schedule) {
-					if(cp.getCourse().contains("CPSC 413") && cp.getTime().equals(c.getTime())) {
+					if(cp.getCourse().contains("CPSC413") && cp.getTime().equals(c.getTime())) {
 //						System.out.println("913 scheduling incompatible");
 						return BAD_CONSTR;
 					}
