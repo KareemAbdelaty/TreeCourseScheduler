@@ -8,6 +8,7 @@ public class ProblemInstance {
 	public static final int PART_CONSTR = 2; //schedule is incomplete (some classes unassigned) but otherwise breaks no constraints
 	public static final int GOOD_CONSTR = 3; //schedule is complete, breaks no constraints
 	private int evalScore = Integer.MAX_VALUE; 
+	public static int evalScoreP = Integer.MAX_VALUE;
 	public static int wmin;
 	public static int pref;
 	private int slotIndex;
@@ -72,6 +73,11 @@ public class ProblemInstance {
 					continue;
 				}
 				temp.Eval();
+				if(ProblemInstance.evalScoreP<this.evalScore) {
+					s.setMax(s.getMax()+1);
+					s.setMin(s.getMin()+1);
+					continue;
+				}
 				if (index < this.schedule.size()-1) {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
@@ -85,6 +91,8 @@ public class ProblemInstance {
 				for(ProblemInstance pr : div2) {
 					if(found == null || found.evalScore > pr.evalScore) {
 						found = pr;
+						ProblemInstance.evalScoreP = pr.evalScore;
+						System.out.println("Updated EvalScore is " + ProblemInstance.evalScoreP);
 					}
 				}
 				s.setMax(s.getMax()+1);
@@ -106,6 +114,11 @@ public class ProblemInstance {
 					continue;
 				}
 				temp.Eval();
+				if(ProblemInstance.evalScoreP<this.evalScore) {
+					s.setMax(s.getMax()+1);
+					s.setMin(s.getMin()+1);
+					continue;
+				}
 				if (index < this.schedule.size()-1) {
 					ProblemInstance temp2 = temp.findSchedule(index+1);
 					if (temp2 != null) {
@@ -118,6 +131,9 @@ public class ProblemInstance {
 				for(ProblemInstance pr : div2) {
 					if(found == null || found.evalScore > pr.evalScore) {
 						found = pr;
+						ProblemInstance.evalScoreP = pr.evalScore;
+						System.out.println("Updated EvalScore is " + ProblemInstance.evalScoreP);
+						
 					}
 				}
 				s.setMax(s.getMax()+1);
