@@ -1,6 +1,14 @@
 # TreeCourseScheduler
 This program was developed by Tutorial 3 Group 1 in order schedule courses based on the Requirments defined in problem description
-by utlising an And-tree based search. here is the neccasry information in order to be able to run this Program:
+by utlising an And-tree based search. The program expects 10 inputs defined below. The code assumes that all arguments entered are
+valid(correct filepaths and integer values for weights and penalties) and will not attempt to handle invalid inputs. If valid inputs
+are passed to the program, the Program will start searching for the optimal solution. After the search is complete the program will
+either print to the console "no possible solutions" if there are no possible solutions to the given input or it will print the best
+solution it has found with its eval value. Lastly, during the proccess of the search the code will update the output file whenever it
+finds a better solution. This allows the user to extract valid non-optimal solutions even if the search has not terminated. At the end
+of the search the output file will contain the optimal solution(the same one being outputted to the console). 
+
+here is the neccasry information in order to be able to run this Program:
 
 Compiling and running the code:
 	Compiling the code:
